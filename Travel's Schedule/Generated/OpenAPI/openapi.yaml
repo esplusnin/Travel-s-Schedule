@@ -6,8 +6,8 @@ info:
 servers:
 - url: https://api.rasp.yandex.net
 tags:
-- name: Список ближайших станций
-  description: Список ближайших станций
+- name: Яндекс.Расписание
+  description: Яндекс.Расписание
 paths:
   /v3.0/nearest_stations/:
     get:
@@ -54,11 +54,42 @@ paths:
           type: string
       responses:
         "200":
-          description: success
+          description: Список ближайших станций получен
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Stations'
+  /v3.0/search/:
+    get:
+      tags:
+      - getScheduleBetweenStations
+      summary: Расписание рейсов между станциями
+      operationId: getScheduleBetweenStations
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Расписание между станциями получено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleBetweenStations'
+      
 components:
   schemas:
     Stations:
@@ -70,6 +101,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Station'
+            
     Pagination:
       type: object
       properties:
@@ -79,6 +111,7 @@ components:
           type: integer
         offset:
           type: integer
+          
     Station:
       type: object
       properties:
@@ -108,10 +141,316 @@ components:
           type: integer
         type_choices:
           $ref: '#/components/schemas/Schedule'
+          
     Schedule:
       type: object
       properties:
         desktop_url:
           type: string
         touch_url:
+          type: string
+          
+    ScheduleBetweenStations:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        interval_segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntervalSegments'
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Segment'
+        search:
+          $ref: '#/components/schemas/Search'
+    
+    IntervalSegments:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/SegmentFrom'
+        thread:
+          $ref: '#/components/schemas/Thread'
+        departure_platform:
+          type: string
+        stops:
+          type: string
+        departure_terminal:
+          type: string
+        to:
+          $ref: '#/components/schemas/SegmentTo'
+        has_transfers:
+          type: boolean
+        tickets_info:
+          $ref: '#/components/schemas/TicketsInfo'
+        duration:
+          type: integer
+        arrival_terminal:
+          type: string
+        start_date:
+          type: string
+        arrival_platform:
+          type: string
+          
+    Segment:
+      type: object
+      properties:
+        arrival:
+          type: string
+        from:
+          $ref: '#/components/schemas/SegmentFrom'
+        thread:
+          $ref: '#/components/schemas/Thread'
+        departure_platform:
+          type: string
+        departure:
+          type: string
+        stops:
+          type: string
+        departure_terminal:
+          type: string
+        to:
+          $ref: '#/components/schemas/SegmentTo'
+        has_transfers:
+          type: boolean
+        tickets_info:
+          $ref: '#/components/schemas/TicketsInfo'
+        duration:
+          type: integer
+        arrival_terminal:
+          type: string
+        start_date:
+          type: string
+        arrival_platform:
+          type: string
+          
+    SegmentFrom:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        station_type:
+          type: string
+          enum:
+          - station,
+          - platform,
+          - stop,
+          - checkpoint,
+          - post,
+          - crossing,
+          - overtaking_point,
+          - train_station,
+          - airport,
+          - bus_station,
+          - bus_stop,
+          - unknown,
+          - port,
+          - port_point,
+          - wharf,
+          - river_port,
+          - marine_station
+        station_type_name:
+          type: string
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        transport_type:
+          type: string
+          enum: [plane, train, suburban, bus, water, helicopter]
+        type:
+          type: string
+          enum: [station, settlement]
+          
+    Thread:
+      type: object
+      properties:
+        uid:
+          type: string
+        title:
+          type: string
+        interval:
+          $ref: '#/components/schemas/Interval'
+        number:
+          type: string
+        short_title:
+          type: string
+        thread_method_link:
+          type: string
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        transport_type:
+          type: string
+          enum: [plane, train, suburban, bus, water, helicopter]
+        vehicle:
+          type: string
+        transport_subtype:
+          $ref: '#/components/schemas/TransportSubtype'
+        express_type:
+          type: string
+          
+    SegmentTo:
+      type: object
+      properties:
+        code:
+          type: string
+        title:
+          type: string
+        station_type:
+          type: string
+          enum:
+          - station,
+          - platform,
+          - stop,
+          - checkpoint,
+          - post,
+          - crossing,
+          - overtaking_point,
+          - train_station,
+          - airport,
+          - bus_station,
+          - bus_stop,
+          - unknown,
+          - port,
+          - port_point,
+          - wharf,
+          - river_port,
+          - marine_station
+        station_type_name:
+          type: string
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        transport_type:
+          type: string
+          enum: [plane, train, suburban, bus, water, helicopter]
+        type:
+          type: string
+          enum: [station, settlement]
+          
+    Interval:
+      type: object
+      properties:
+        density:
+          type: string
+        end_time:
+          type: string
+        begin_time:
+          type: integer
+          
+    TicketsInfo:
+      type: object
+      properties:
+        et_marker:
+          type: boolean
+        places:
+          type: array
+          items:
+            $ref: '#/components/schemas/Place'
+    
+    Place:
+      type: object
+      properties:
+        currency:
+          type: string
+        price:
+          $ref: '#/components/schemas/Price'
+        name:
+          type: string
+    
+    Price:
+      type: object
+      properties:
+        cents:
+          type: integer
+        whole:
+          type: integer
+          
+    Carrier:
+      type: object
+      properties:
+        code:
+          type: integer
+        contacts:
+          type: string
+        url:
+          type: string
+        logo_svg:
+          type: string
+        title:
+          type: string
+        phone:
+          type: string
+        codes:
+          $ref: '#/components/schemas/Code'
+        adress:
+          type: string
+        logo:
+          type: string
+        email:
+          type: string
+          
+    TransportSubtype:
+      type: object
+      properties:
+        color:
+          type: string
+        code:
+          type: string
+        title:
+          type: string
+          
+    Code:
+      type: object
+      properties:
+        icao:
+          type: string
+        sirena:
+          type: string
+        iata:
+          type: string
+          
+    Search:
+      type: object
+      properties:
+        date:
+          type: string
+        to:
+          $ref: '#/components/schemas/SearchTo'
+        from:
+          $ref: '#/components/schemas/SearchFrom'
+          
+    SearchTo:
+      type: object
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+          enum: [station, settlement]
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        title:
+          type: string
+          
+    SearchFrom:
+      type: object
+      properties:
+        code:
+          type: string
+        type:
+          type: string
+          enum: [station, settlement]
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        title:
           type: string
