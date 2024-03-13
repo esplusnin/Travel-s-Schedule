@@ -1,13 +1,16 @@
+import CoreLocation
 import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
 final class NetworkService {
     
-    // MARK: - Constants and Variables:
+    // MARK: - Dependencies:
     private let client: Client
+
+    // MARK: - Constants and Variables:
     private let apikey: String
-    
+        
     // MARK: - Lifecycle:
     init(client: Client, apikey: String) {
         self.client = client
@@ -79,5 +82,23 @@ extension NetworkService: ThreadListServiceProtocol {
         )
         
         return try response.ok.body.json
+    }
+}
+
+// MARK: - NearestCityServiceProtocol:
+extension NetworkService: NearestSettlementServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getNearestSettlement(from location: CLLocationCoordinate2D, distance: Double) async throws -> NearestSettlement {
+        let responce = try await client.getNearestSettlement(
+            query: .init(
+                apikey: apikey,
+                lat: location.latitude,
+                lng: location.longitude,
+                distance: distance
+            )
+        )
+        
+        return try responce.ok.body.json
     }
 }
