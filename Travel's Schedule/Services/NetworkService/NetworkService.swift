@@ -102,3 +102,19 @@ extension NetworkService: NearestSettlementServiceProtocol {
         return try responce.ok.body.json
     }
 }
+
+// MARK: - CarrierInformationServiceProtocol:
+extension NetworkService: CarrierInformationServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getCarrierInformation(with code: String) async throws -> Any {
+        let response = try await client.getCarrierInformation(
+            query: .init(
+                apikey: apikey,
+                code: code
+            )
+        )
+
+        return try response.ok.body.json
+    }
+}

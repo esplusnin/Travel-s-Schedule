@@ -201,16 +201,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+                
+  /v3.0/carrier/:
+    get:
+      summary: Информация о перевозчике
+      operationId: getCarrierInformation
+      parameters:
+      - name: apikey
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: code
+        in: query
+        description: Код перевозчика
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Информация о перевозчике получена
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Carrier'
+                - $ref: '#/components/schemas/Carriers'
+        'default':
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         
 components:
   schemas:
     Error:
       type: object
       properties:
-        code:
-          type: integer
-        message:
+        request:
           type: string
+        text:
+          type: string
+        error_code:
+          type: string
+        http_code:
+          type: integer
           
     Stations:
       type: object
@@ -317,6 +353,11 @@ components:
         type:
           type: string
           description: Тип транспортного пункта
+          
+    Carriers:
+      type: array
+      items:
+        $ref: '#/components/schemas/Carrier'
           
     Pagination:
       type: object
