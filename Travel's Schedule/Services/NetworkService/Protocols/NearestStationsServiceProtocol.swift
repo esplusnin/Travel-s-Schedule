@@ -1,6 +1,5 @@
 import Foundation
 import OpenAPIRuntime
-import OpenAPIURLSession
 
 typealias NearestStations = Components.Schemas.Stations
 

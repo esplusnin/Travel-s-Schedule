@@ -121,11 +121,42 @@ paths:
           type: string
       responses:
         '200':
-          description: Расписание между станциями получено
+          description: Расписание станции получено
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/StationSchedule'
+        'default':
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /v3.0/thread/:
+    get:
+      summary: Список станций следования
+      operationId: getThreadList
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: uid
+        in: query
+        description: Идентификатор нитки в Яндекс Расписаниях
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Список станций следований получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadList'
         'default':
           description: Все возможные ошибки
           content:
@@ -172,7 +203,58 @@ components:
           $ref: '#/components/schemas/ScheduleDirection'
         directions:
           $ref: '#/components/schemas/Directions'
-            
+          
+    ThreadList:
+      type: object
+      properties:
+        except_days:
+          type: string
+          description: Дни, в которые нитка не курсирует
+        arrival_date:
+          type: string
+          description: Дата прибытия на станцию, указанную в параметре to
+        from:
+          type: string
+          description: Пункт отправления, указанный в параметре from
+        uid:
+          type: string
+          description: Идентификатор нитки, принятый в Яндекс Расписаниях
+        title:
+          type: string
+        interval:
+          $ref: '#/components/schemas/Interval'
+        departure_date:
+          type: string
+        start_time:
+          type: string
+        number:
+          type: string
+        short_title:
+          type: string
+        days:
+          type: string
+        to:
+          type: string
+        carrier:
+          $ref: '#/components/schemas/Carrier'
+        transport_type:
+          type: string
+        stops:
+          type: array
+          description: Список станций следования
+          items:
+            $ref: '#/components/schemas/Stop'
+        vehicle:
+          type: string
+          description: Название транспортного средства
+        start_date:
+          type: string
+        transport_subtype:
+          $ref: '#/components/schemas/TransportSubtype'
+        express_type:
+          type: string
+          description: Признак экспресса или аэроэкспресса
+          
     Pagination:
       type: object
       properties:
@@ -274,10 +356,15 @@ components:
     Code:
       type: object
       properties:
+        express:
+          type: string
+          description: Код станции в системе кодирования Экспресс-3
         yandex:
           type: string
+          description: Код станции в системе кодирования Яндекс Расписаний
         esr:
           type: string
+          description: Код станции в системе кодирования ЕСР
     
     TypeChoises:
       type: object
@@ -286,6 +373,31 @@ components:
           type: string
         touch_url:
           type: string
+          
+    Stop:
+      type: object
+      properties:
+        arrival:
+          type: string
+          description: Время прибытия, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
+        departure:
+          type: string
+          description: Время отправления, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
+        duration:
+          type: integer
+          description: Время в пути между станциями (в секундах)
+        stop_time:
+          type: integer
+          description: Продолжительность остановки (в секундах)
+        station:
+          $ref: '#/components/schemas/Station'
+        terminal:
+          type: string
+          description: Терминал аэропорта
+        platform:
+          type: string
+          description: Платформа или путь, с которого отправляется рейс
+      
           
     ScheduleBetweenStations:
       type: object
@@ -525,11 +637,11 @@ components:
         date:
           type: string
         to:
-          $ref: '#/components/schemas/SearchTo'
+          $ref: '#/components/schemas/To'
         from:
-          $ref: '#/components/schemas/SearchFrom'
+          $ref: '#/components/schemas/From'
           
-    SearchTo:
+    To:
       type: object
       properties:
         code:
@@ -543,7 +655,7 @@ components:
         title:
           type: string
           
-    SearchFrom:
+    From:
       type: object
       properties:
         code:

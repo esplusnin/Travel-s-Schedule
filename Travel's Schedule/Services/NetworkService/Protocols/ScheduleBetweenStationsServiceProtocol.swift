@@ -1,6 +1,5 @@
 import Foundation
 import OpenAPIRuntime
-import OpenAPIURLSession
 
 typealias ScheduleBetweenStations = Components.Schemas.ScheduleBetweenStations
 

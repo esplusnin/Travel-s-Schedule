@@ -50,6 +50,7 @@ extension NetworkService: ScheduleBetweenStationsServiceProtocol {
     }
 }
 
+// MARK: - StationScheduleServiceProtocol:
 extension NetworkService: StationScheduleServiceProtocol {
     
     // MARK: - Public Methods:
@@ -58,6 +59,22 @@ extension NetworkService: StationScheduleServiceProtocol {
             query: .init(
                 apikey: apikey,
                 station: code
+            )
+        )
+        
+        return try response.ok.body.json
+    }
+}
+
+// MARK: - ThreadListServiceProtocol:
+extension NetworkService: ThreadListServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getListOfThread(with uid: String) async throws -> ThreadList {
+        let response = try await client.getThreadList(
+            query: .init(
+                apikey: apikey,
+                uid: uid
             )
         )
         
