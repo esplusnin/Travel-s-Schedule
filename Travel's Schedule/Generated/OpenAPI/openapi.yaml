@@ -89,9 +89,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScheduleBetweenStations'
+        "default":
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
     Stations:
       type: object
       properties:
@@ -235,24 +248,6 @@ components:
           type: string
         station_type:
           type: string
-          enum:
-          - station,
-          - platform,
-          - stop,
-          - checkpoint,
-          - post,
-          - crossing,
-          - overtaking_point,
-          - train_station,
-          - airport,
-          - bus_station,
-          - bus_stop,
-          - unknown,
-          - port,
-          - port_point,
-          - wharf,
-          - river_port,
-          - marine_station
         station_type_name:
           type: string
         popular_title:
@@ -261,10 +256,8 @@ components:
           type: string
         transport_type:
           type: string
-          enum: [plane, train, suburban, bus, water, helicopter]
         type:
           type: string
-          enum: [station, settlement]
           
     Thread:
       type: object
@@ -285,7 +278,6 @@ components:
           $ref: '#/components/schemas/Carrier'
         transport_type:
           type: string
-          enum: [plane, train, suburban, bus, water, helicopter]
         vehicle:
           type: string
         transport_subtype:
@@ -302,24 +294,6 @@ components:
           type: string
         station_type:
           type: string
-          enum:
-          - station,
-          - platform,
-          - stop,
-          - checkpoint,
-          - post,
-          - crossing,
-          - overtaking_point,
-          - train_station,
-          - airport,
-          - bus_station,
-          - bus_stop,
-          - unknown,
-          - port,
-          - port_point,
-          - wharf,
-          - river_port,
-          - marine_station
         station_type_name:
           type: string
         popular_title:
@@ -328,10 +302,8 @@ components:
           type: string
         transport_type:
           type: string
-          enum: [plane, train, suburban, bus, water, helicopter]
         type:
           type: string
-          enum: [station, settlement]
           
     Interval:
       type: object
@@ -432,7 +404,6 @@ components:
           type: string
         type:
           type: string
-          enum: [station, settlement]
         popular_title:
           type: string
         short_title:
@@ -447,7 +418,6 @@ components:
           type: string
         type:
           type: string
-          enum: [station, settlement]
         popular_title:
           type: string
         short_title:
