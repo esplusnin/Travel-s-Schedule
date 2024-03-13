@@ -49,3 +49,18 @@ extension NetworkService: ScheduleBetweenStationsServiceProtocol {
         return try response.ok.body.json
     }
 }
+
+extension NetworkService: StationScheduleServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getScheduleOfStation(with code: String) async throws -> StationSchedule {
+        let response = try await client.getStationSchedule(
+            query: .init(
+                apikey: apikey,
+                station: code
+            )
+        )
+        
+        return try response.ok.body.json
+    }
+}

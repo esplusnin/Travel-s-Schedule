@@ -8,11 +8,10 @@ servers:
 tags:
 - name: Яндекс.Расписание
   description: Яндекс.Расписание
+  
 paths:
   /v3.0/nearest_stations/:
     get:
-      tags:
-      - getNearestStations
       summary: Список ближайших станций
       operationId: getNearestStations
       parameters:
@@ -53,16 +52,21 @@ paths:
         schema:
           type: string
       responses:
-        "200":
+        '200':
           description: Список ближайших станций получен
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Stations'
+        'default':
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
   /v3.0/search/:
     get:
-      tags:
-      - getScheduleBetweenStations
       summary: Расписание рейсов между станциями
       operationId: getScheduleBetweenStations
       parameters:
@@ -74,27 +78,60 @@ paths:
           type: string
       - name: from
         in: query
+        description: станция отправления
         required: true
         schema:
           type: string
       - name: to
         in: query
+        description: станция прибытия
         required: true
         schema:
           type: string
       responses:
-        "200":
+        '200':
           description: Расписание между станциями получено
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ScheduleBetweenStations'
-        "default":
+        'default':
           description: Все возможные ошибки
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
+                
+  /v3.0/schedule/:
+    get:
+      summary: Расписание рейсов по станции
+      operationId: getStationSchedule
+      parameters:
+      - name: apikey
+        in: query
+        description: API key
+        required: true
+        schema:
+          type: string
+      - name: station
+        in: query
+        description: Код станции
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Расписание между станциями получено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StationSchedule'
+        'default':
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       
 components:
   schemas:
@@ -105,6 +142,7 @@ components:
           type: integer
         message:
           type: string
+          
     Stations:
       type: object
       properties:
@@ -115,47 +153,133 @@ components:
           items:
             $ref: '#/components/schemas/Station'
             
+    StationSchedule:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Дата, на которую получен список рейсов
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        station:
+          $ref: '#/components/schemas/Station'
+        schedule:
+          type: array
+          description: Список рейсов
+          items:
+            $ref: '#/components/schemas/Schedule'
+        schedule_direction:
+          $ref: '#/components/schemas/ScheduleDirection'
+        directions:
+          $ref: '#/components/schemas/Directions'
+            
     Pagination:
       type: object
       properties:
         total:
           type: integer
+          description: Общее количество рейсов, удовлетворяющих условиям поиска
         limit:
           type: integer
+          description: Ограничение на количество рейсов
         offset:
           type: integer
+          description: Смещение относительно первого результата поиска
           
     Station:
       type: object
       properties:
-        type:
-          type: string
-        title:
-          type: string
-        short_title:
-          type: string
-        popular_title:
-          type: string
         code:
           type: string
-        lat:
-          type: number
-        lng:
-          type: number
         station_type:
           type: string
         station_type_name:
           type: string
+        title:
+          type: string
+        popular_title:
+          type: string
+        short_title:
+          type: string
+        codes:
+          $ref: '#/components/schemas/Code'
         transport_type:
           type: string
+        lat:
+          type: number
+          description: Широта
+        lng:
+          type: number
+          description: Долгота
         distance:
           type: number
         majority:
           type: integer
+        type:
+          type: string
+          description: Вид станции
         type_choices:
-          $ref: '#/components/schemas/Schedule'
+          $ref: '#/components/schemas/TypeChoises'
           
     Schedule:
+      type: object
+      properties:
+        except_days:
+          type: string
+          description: Дни, в которые нитка не курсирует
+        arrival:
+          type: string
+          description: Время прибытия, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
+        thread:
+          $ref: '#/components/schemas/Thread'
+        is_fuzzy:
+          type: boolean
+          description: Признак неточности времени отправления и времени прибытия
+        days:
+          type: string
+          description: Дни курсирования нитки
+        stops:
+          type: string
+          description: Станции следования рейса, на которых совершается остановка
+        departure:
+          type: string
+          description: Время отправления, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
+        terminal:
+          type: string
+          description: Терминал аэропорта
+        platform:
+          type: string
+          description: Платформа или путь, с которого отправляется рейс
+      
+    ScheduleDirection:
+      type: object
+      description: Код и название запрошенного направления рейсов
+      properties:
+        code:
+          type: string
+          description: Код направления
+        title:
+          type: string
+    
+    Directions:
+      type: object
+      description: Коды и названия возможных направлений движения электричек по станции
+      properties:
+        code:
+          type: string
+          description: Код направления
+        title:
+          type: string
+    
+    Code:
+      type: object
+      properties:
+        yandex:
+          type: string
+        esr:
+          type: string
+    
+    TypeChoises:
       type: object
       properties:
         desktop_url:
@@ -261,15 +385,18 @@ components:
           
     Thread:
       type: object
+      description: Информация о нитке
       properties:
         uid:
           type: string
+          description: Идентификатор нитки, принятый в Яндекс Расписаниях
         title:
           type: string
         interval:
           $ref: '#/components/schemas/Interval'
         number:
           type: string
+          description: Номер рейса
         short_title:
           type: string
         thread_method_link:
@@ -278,12 +405,17 @@ components:
           $ref: '#/components/schemas/Carrier'
         transport_type:
           type: string
+          description: Тип транспортного средства
         vehicle:
           type: string
+          description: Название транспортного средства
         transport_subtype:
-          $ref: '#/components/schemas/TransportSubtype'
+          oneOf:
+          - type: string
+          - $ref: '#/components/schemas/TransportSubtype'
         express_type:
           type: string
+          description: Признак экспресса или аэроэкспресса
           
     SegmentTo:
       type: object
@@ -359,7 +491,7 @@ components:
         phone:
           type: string
         codes:
-          $ref: '#/components/schemas/Code'
+          $ref: '#/components/schemas/Codes'
         adress:
           type: string
         logo:
@@ -377,7 +509,7 @@ components:
         title:
           type: string
           
-    Code:
+    Codes:
       type: object
       properties:
         icao:
