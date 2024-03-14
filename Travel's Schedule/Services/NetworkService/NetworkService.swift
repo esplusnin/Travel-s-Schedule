@@ -118,3 +118,19 @@ extension NetworkService: CarrierInformationServiceProtocol {
         return try response.ok.body.json
     }
 }
+
+// MARK: - StationsList:
+extension NetworkService: StationsListServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getStationsList(format: Operations.getAllStationList.Input.Query.formatPayload = .json) async throws -> HTTPBody {
+        let response = try await client.getAllStationList(
+            query: .init(
+                apikey: apikey,
+                format: format
+            )
+        )
+    
+        return try response.ok.body.html
+    }
+}

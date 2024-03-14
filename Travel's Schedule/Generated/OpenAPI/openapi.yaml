@@ -233,6 +233,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  
+  /v3.0/stations_list/:
+    get:
+      summary: Список всех доступных станций
+      operationId: getAllStationList
+      parameters:
+      - name: apikey
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: json или xml
+        required: false
+        schema:
+          type: string
+          enum:
+            - json
+            - xml
+          default: json
+      responses:
+        '200':
+          description: Список всех станций получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllStations'
+            text/html:
+              schema: {}
+        'default':
+          description: Все возможные ошибки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         
 components:
   schemas:
@@ -331,6 +367,7 @@ components:
           
     Settlement:
       type: object
+      description: Населенный пункт региона
       properties:
         distance:
           type: number
@@ -353,11 +390,28 @@ components:
         type:
           type: string
           description: Тип транспортного пункта
+        stations:
+          oneOf:
+          - type: object  # станция - объект
+            properties:
+              ref:
+                $ref: '#/components/schemas/Station'
+          - type: array   # станции - массив
+            items:
+              $ref: '#/components/schemas/Stations'
           
     Carriers:
       type: array
       items:
         $ref: '#/components/schemas/Carrier'
+    
+    AllStations:
+      type: object
+      properties:
+        countries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Country'
           
     Pagination:
       type: object
@@ -372,6 +426,43 @@ components:
           type: integer
           description: Смещение относительно первого результата поиска
           
+    Country:
+      type: object
+      properties:
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Region'
+        codes:
+          $ref: '#/components/schemas/CountryCode'
+        title:
+          type: string
+          
+    Region:
+      type: object
+      properties:
+        settlements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Settlement'
+        codes:
+          $ref: '#/components/schemas/CountryCode'
+        title:
+          type: string
+          
+    CountryCode:
+      type: object
+      properties:
+        esr_code:
+          type: string
+          description: Код железнодорожной станции в системе кодирования ЕСР
+          nullable: true
+        yandex_code:
+          type: string
+          description: Код в системе кодирования Яндекс Расписаний
+          nullable: true
+      additionalProperties: false
+    
     Station:
       type: object
       properties:
@@ -392,10 +483,16 @@ components:
         transport_type:
           type: string
         lat:
-          type: number
+          oneOf:
+          - type: number
+          - type: string
+          nullable: true
           description: Широта
         lng:
-          type: number
+          oneOf:
+          - type: number
+          - type: string
+          nullable: true
           description: Долгота
         distance:
           type: number
