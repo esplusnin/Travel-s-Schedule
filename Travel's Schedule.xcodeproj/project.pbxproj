@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7E2505B42BA22BAD0036A501 /* StationsListServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2505B32BA22BAD0036A501 /* StationsListServiceProtocol.swift */; };
+		7E2505BC2BA2D9B90036A501 /* CopyrightServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E2505BB2BA2D9B90036A501 /* CopyrightServiceProtocol.swift */; };
 		7E77E8652B90D68100521775 /* Travel_s_ScheduleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77E8642B90D68100521775 /* Travel_s_ScheduleApp.swift */; };
 		7E77E8672B90D68100521775 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E77E8662B90D68100521775 /* ContentView.swift */; };
 		7E77E8692B90D68300521775 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E77E8682B90D68300521775 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		7E2505B32BA22BAD0036A501 /* StationsListServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationsListServiceProtocol.swift; sourceTree = "<group>"; };
+		7E2505BB2BA2D9B90036A501 /* CopyrightServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyrightServiceProtocol.swift; sourceTree = "<group>"; };
 		7E77E8612B90D68100521775 /* Travel's Schedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Travel's Schedule.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E77E8642B90D68100521775 /* Travel_s_ScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Travel_s_ScheduleApp.swift; sourceTree = "<group>"; };
 		7E77E8662B90D68100521775 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				7E91FFC02BA19DE900E3244A /* NearestSettlementServiceProtocol.swift */,
 				7E91FFC72BA1FC3F00E3244A /* CarrierInformationServiceProtocol.swift */,
 				7E2505B32BA22BAD0036A501 /* StationsListServiceProtocol.swift */,
+				7E2505BB2BA2D9B90036A501 /* CopyrightServiceProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E2505BC2BA2D9B90036A501 /* CopyrightServiceProtocol.swift in Sources */,
 				7E77E8672B90D68100521775 /* ContentView.swift in Sources */,
 				7E91FFBD2BA1921500E3244A /* ThreadListServiceProtocol.swift in Sources */,
 				7E91FFC12BA19DE900E3244A /* NearestSettlementServiceProtocol.swift in Sources */,

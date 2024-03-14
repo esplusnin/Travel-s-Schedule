@@ -134,3 +134,18 @@ extension NetworkService: StationsListServiceProtocol {
         return try response.ok.body.html
     }
 }
+
+// MARK: - CopyrightServiceProtocol:
+extension NetworkService: CopyrightServiceProtocol {
+    
+    // MARK: - Public Methods:
+    func getCopyright() async throws -> Copyrights {
+        let response = try await client.getYandexCopyrigth(
+            query: .init(
+                apikey: apikey
+            )
+        )
+        
+        return try response.ok.body.json
+    }
+}
