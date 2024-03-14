@@ -5,5 +5,5 @@ typealias CarrierInformation = Components.Schemas.Carrier
 typealias CarriersInformation = [CarrierInformation]
 
 protocol CarrierInformationServiceProtocol: AnyObject {
-    func getCarrierInformation(with code: String) async throws -> Any
+    func getCarrierInformation(with code: String, system: Operations.getCarrierInformation.Input.Query.systemPayload) async throws -> Any
 }
