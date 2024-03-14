@@ -218,15 +218,24 @@ paths:
         required: true
         schema:
           type: string
+      - name: system
+        in: query
+        description: Система кодирования, в которой указывается код перевозчика
+        schema:
+          type: string
+          enum:
+          - yandex
+          - iata
+          - sirena
+          - express
+          - esr
       responses:
         '200':
           description: Информация о перевозчике получена
           content:
             application/json:
               schema:
-                oneOf:
-                - $ref: '#/components/schemas/Carrier'
-                - $ref: '#/components/schemas/Carriers'
+                $ref: '#/components/schemas/Carriers'
         'default':
           description: Все возможные ошибки
           content:
@@ -427,9 +436,14 @@ components:
               $ref: '#/components/schemas/Stations'
           
     Carriers:
-      type: array
-      items:
-        $ref: '#/components/schemas/Carrier'
+      type: object
+      properties:
+        carriers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Carrier'
+        carrier:
+          $ref: '#/components/schemas/Carrier'
     
     AllStations:
       type: object

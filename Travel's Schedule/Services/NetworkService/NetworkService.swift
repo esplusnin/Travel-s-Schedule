@@ -107,14 +107,15 @@ extension NetworkService: NearestSettlementServiceProtocol {
 extension NetworkService: CarrierInformationServiceProtocol {
     
     // MARK: - Public Methods:
-    func getCarrierInformation(with code: String) async throws -> Any {
+    func getCarrierInformation(with code: String, system: Operations.getCarrierInformation.Input.Query.systemPayload = .yandex) async throws -> Any {
         let response = try await client.getCarrierInformation(
             query: .init(
                 apikey: apikey,
-                code: code
+                code: code,
+                system: system
             )
         )
-
+        
         return try response.ok.body.json
     }
 }
