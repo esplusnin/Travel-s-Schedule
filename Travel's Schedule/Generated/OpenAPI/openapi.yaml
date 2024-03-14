@@ -370,20 +370,26 @@ components:
           $ref: '#/components/schemas/Interval'
         departure_date:
           type: string
+          description: Дата отправления со станции, указанной в параметре from
         start_time:
           type: string
+          description: Время отправления с первой станции следования по местному времени станции
         number:
           type: string
+          description: Номер рейса
         short_title:
           type: string
         days:
           type: string
+          description: Дни курсирования нитки.
         to:
           type: string
+          description: Пункт прибытия, указанный в параметре to
         carrier:
           $ref: '#/components/schemas/Carrier'
         transport_type:
           type: string
+          description: Тип транспорта
         stops:
           type: array
           description: Список станций следования
@@ -543,8 +549,10 @@ components:
           type: string
         station_type:
           type: string
+          description: Тип пункта отправления
         station_type_name:
           type: string
+          description: Название типа пункта отправления, зависит от языка ответа
         title:
           type: string
         popular_title:
@@ -555,6 +563,7 @@ components:
           $ref: '#/components/schemas/Code'
         transport_type:
           type: string
+          description: Тип отправляющегося транспортного средства
         lat:
           oneOf:
           - type: number
@@ -691,6 +700,7 @@ components:
     
     IntervalSegments:
       type: object
+      description: Список интервальных рейсов, движение по которым идет регулярно, но без определенного расписания
       properties:
         from:
           $ref: '#/components/schemas/SegmentFrom'
@@ -698,40 +708,52 @@ components:
           $ref: '#/components/schemas/Thread'
         departure_platform:
           type: string
+          description: Номер платформы станции отправления
         stops:
           type: string
+          description: Станции следования рейса, на которых совершается остановка
         departure_terminal:
           type: string
+          description: Название терминала станции отправления
         to:
           $ref: '#/components/schemas/SegmentTo'
         has_transfers:
           type: boolean
+          description: Признак наличия пересадок по ходу рейса
         tickets_info:
           $ref: '#/components/schemas/TicketsInfo'
         duration:
           type: integer
+          description: Продолжительность рейса (в секундах)
         arrival_terminal:
           type: string
+          description: Название терминала станции прибытия
         start_date:
           type: string
+          description: Дата отправления рейса
         arrival_platform:
           type: string
+          description: Номер платформы станции прибытия
           
     Segment:
       type: object
       properties:
         arrival:
           type: string
+          description: Время прибытия, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
         from:
           $ref: '#/components/schemas/SegmentFrom'
         thread:
           $ref: '#/components/schemas/Thread'
         departure_platform:
           type: string
+          description: Номер платформы станции отправления
         departure:
           type: string
+          description: Время отправления, в формате ISO 8601 (YYYY-MM-DDThh:mm:ss±hh:mm)
         stops:
           type: string
+          description: Станции следования рейса, на которых совершается остановка
         departure_terminal:
           type: string
         to:
@@ -742,32 +764,41 @@ components:
           $ref: '#/components/schemas/TicketsInfo'
         duration:
           type: integer
+          description: Продолжительность рейса (в секундах)
         arrival_terminal:
           type: string
+          description: Название терминала станции прибытия
         start_date:
           type: string
+          description: Дата отправления рейса
         arrival_platform:
           type: string
+          description: Номер платформы станции прибытия
           
     SegmentFrom:
       type: object
       properties:
         code:
           type: string
+          description: Код пункта отправления в системе кодирования Яндекс Расписаний
         title:
           type: string
         station_type:
           type: string
+          description: Тип пункта отправления
         station_type_name:
           type: string
+          description: Название типа пункта отправления, зависит от языка ответа
         popular_title:
           type: string
         short_title:
           type: string
         transport_type:
           type: string
+          description: Тип отправляющегося транспортного средства
         type:
           type: string
+          description: Вид пункта отправления
           
     Thread:
       type: object
@@ -808,38 +839,48 @@ components:
       properties:
         code:
           type: string
+          description: Код станции прибытия в системе кодирования Яндекс Расписаний
         title:
           type: string
         station_type:
           type: string
+          description: Тип пункта назначения
         station_type_name:
           type: string
+          description: Название типа пункта отправления, зависит от языка ответа
         popular_title:
           type: string
         short_title:
           type: string
         transport_type:
           type: string
+          description: Тип прибывающего транспортного средства
         type:
           type: string
+          description: Вид пункта назначения
           
     Interval:
       type: object
       properties:
         density:
           type: string
+          description: Описание периодичности движения в свободной форме
         end_time:
           type: string
+          description: Дата и время окончания движения по нитке.
         begin_time:
           type: integer
+          description: Дата и время окончания движения по нитке.
           
     TicketsInfo:
       type: object
       properties:
         et_marker:
           type: boolean
+          description: Признак возможности купить электронный билет
         places:
           type: array
+          description: Доступные типы и цена билетов
           items:
             $ref: '#/components/schemas/Place'
     
@@ -848,6 +889,7 @@ components:
       properties:
         currency:
           type: string
+          description: Идентификатор валюты, в которой указана цена
         price:
           $ref: '#/components/schemas/Price'
         name:
@@ -855,43 +897,55 @@ components:
     
     Price:
       type: object
+      description: Цена билета
       properties:
         cents:
           type: integer
+          description: Целое число дополнительных единиц валюты (например, копеек или центов)
         whole:
           type: integer
+          description: Целое число основных единиц валюты (например, рублей)
           
     Carrier:
       type: object
       properties:
         code:
           type: integer
+          description: Код перевозчика в системе кодирования Яндекс Расписаний
         contacts:
           type: string
+          description: Контактная информация, в свободной форме
         url:
           type: string
         logo_svg:
           type: string
+          description: Ссылка на используемый Яндексом логотип перевозчика в формате SVG
         title:
           type: string
         phone:
           type: string
+          description: Контактный номер телефона перевозчика
         codes:
           $ref: '#/components/schemas/Codes'
         adress:
           type: string
+          description: Юридический адрес перевозчика
         logo:
           type: string
+          description: Ссылка на используемый Яндексом логотип перевозчика в растровом формате
         email:
           type: string
+          description: Электронный почтовый адрес перевозчика
           
     TransportSubtype:
       type: object
       properties:
         color:
           type: string
+          description: Основной цвет транспортного средства в шестнадцатеричном формате
         code:
           type: string
+          description: Код подтипа транспорта для типа, указанного в элементе transport_type
         title:
           type: string
           
@@ -900,16 +954,21 @@ components:
       properties:
         icao:
           type: string
+          description: Код перевозчика в системе кодирования ICAO
         sirena:
           type: string
+          description: Код перевозчика в системе кодирования Sirena
         iata:
           type: string
+          description: Код перевозчика в системе кодирования IATA
           
     Search:
       type: object
+      description: Указанная в запросе дата, пункт отправления и пункт прибытия
       properties:
         date:
           type: string
+          description: Дата, на которую получен список рейсов, в формате «YYYY-MM-DD»
         to:
           $ref: '#/components/schemas/To'
         from:
@@ -917,11 +976,14 @@ components:
           
     To:
       type: object
+      description: Информация о станции прибытия рейса
       properties:
         code:
           type: string
+          description: Код станции прибытия в системе кодирования Яндекс Расписаний
         type:
           type: string
+          description: Вид пункта назначения
         popular_title:
           type: string
         short_title:
@@ -934,8 +996,10 @@ components:
       properties:
         code:
           type: string
+          description: Код станции прибытия в системе кодирования Яндекс Расписаний
         type:
           type: string
+          description: Вид пункта назначения
         popular_title:
           type: string
         short_title:
