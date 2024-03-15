@@ -23,7 +23,7 @@
 		7E91FFC82BA1FC3F00E3244A /* CarrierInformationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E91FFC72BA1FC3F00E3244A /* CarrierInformationServiceProtocol.swift */; };
 		7EA1EF342B947AC80036AFDE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1EF332B947AC80036AFDE /* NetworkService.swift */; };
 		7EA1EF382B947ADC0036AFDE /* NearestStationsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA1EF372B947ADC0036AFDE /* NearestStationsServiceProtocol.swift */; };
-		7EE385232B9F27D500482C9E /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE385222B9F27D500482C9E /* Secret.swift */; };
+		7EE385232B9F27D500482C9E /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE385222B9F27D500482C9E /* Environment.swift */; };
 		7EE385252B9F292000482C9E /* ScheduleBetweenStationsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE385242B9F292000482C9E /* ScheduleBetweenStationsServiceProtocol.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +43,7 @@
 		7E91FFC72BA1FC3F00E3244A /* CarrierInformationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrierInformationServiceProtocol.swift; sourceTree = "<group>"; };
 		7EA1EF332B947AC80036AFDE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		7EA1EF372B947ADC0036AFDE /* NearestStationsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearestStationsServiceProtocol.swift; sourceTree = "<group>"; };
-		7EE385222B9F27D500482C9E /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		7EE385222B9F27D500482C9E /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		7EE385242B9F292000482C9E /* ScheduleBetweenStationsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleBetweenStationsServiceProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,7 +158,7 @@
 		7EE385212B9F27CC00482C9E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7EE385222B9F27D500482C9E /* Secret.swift */,
+				7EE385222B9F27D500482C9E /* Environment.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -250,7 +250,7 @@
 				7E91FFBD2BA1921500E3244A /* ThreadListServiceProtocol.swift in Sources */,
 				7E91FFC12BA19DE900E3244A /* NearestSettlementServiceProtocol.swift in Sources */,
 				7E91FFBA2BA1849200E3244A /* StationScheduleServiceProtocol.swift in Sources */,
-				7EE385232B9F27D500482C9E /* Secret.swift in Sources */,
+				7EE385232B9F27D500482C9E /* Environment.swift in Sources */,
 				7EA1EF382B947ADC0036AFDE /* NearestStationsServiceProtocol.swift in Sources */,
 				7E2505B42BA22BAD0036A501 /* StationsListServiceProtocol.swift in Sources */,
 				7EA1EF342B947AC80036AFDE /* NetworkService.swift in Sources */,
