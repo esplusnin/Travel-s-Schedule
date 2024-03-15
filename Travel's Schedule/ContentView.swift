@@ -9,7 +9,7 @@ struct ContentView: View {
                                 transport: URLSessionTransport())
     
     private var service: NetworkService {
-        NetworkService(client: client, apikey: Secret.yandexTrabelAPIKey)
+        NetworkService(client: client, apikey: Environment.yandexTrabelAPIKey)
     }
     
     @State
